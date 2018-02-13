@@ -1,0 +1,29 @@
+version: '2.1'
+services:
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+  www:
+    depends_on:
+      - mysql
+    restart: always
+    links:
+      - mysql
+    image: iget/default-www
+    volumes:
+      - ./src:/var/www/
+    ports:
+      - "8888:80"
+
+volumes:
+  storage:
+    driver: local
+  mysql_data:
+    driver: local
